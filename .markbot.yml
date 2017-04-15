@@ -1,0 +1,125 @@
+repo: 'circle-mover'
+
+naming: true
+restrictFileTypes: true
+liveWebsite: true
+
+git:
+  numCommits: 2
+  allCommitted: true
+  allSynced: true
+
+html:
+  - path: 'index.html'
+    valid: true
+    bestPractices: true
+    has:
+      - 'script[src*="jquery"]'
+      - 'script[src="js/main.js"]'
+      - ['script[src*="jquery"] + script[src="js/main.js"]', 'The jQuery `<script>` tag must come before the `<script>` tag for your `main.js`']
+      - 'button#btn-right'
+      - 'button#btn-left'
+      - 'button#btn-up'
+      - 'button#btn-down'
+      - 'div.ball'
+    search:
+      - 'Right'
+      - 'Left'
+      - 'Up'
+      - 'Down'
+
+css:
+  - path: 'css/main.css'
+    valid: true
+    bestPractices: true
+    has:
+      - ['html', 'box-sizing', 'border-box', 'The `border-box` layout model is needed for this assignment—use the `borderbox` snippet']
+      - ['*', 'box-sizing', 'inherit', 'The `border-box` layout model is needed for this assignment—use the `borderbox` snippet']
+      - ['.ball', 'height', '200px']
+      - ['.ball', 'width', '200px']
+      - ['.ball', 'position', 'absolute']
+      - ['.ball', 'border-radius', '100px']
+
+js:
+  - path: 'js/main.js'
+    valid: true
+    bestPractices: true
+    search:
+      - "var \\$ball = \\$\\('\\.ball'\\);"
+      - "\\$\\('#btn-right'\\)\\.on\\('click', function \\(\\) \\{"
+      - "\\$\\('#btn-left'\\)\\.on\\('click', function \\(\\) \\{"
+      - "\\$\\('#btn-up'\\)\\.on\\('click', function \\(\\) \\{"
+      - "\\$\\('#btn-down'\\)\\.on\\('click', function \\(\\) \\{"
+      - "\\$ball\\.offset\\(\\)\\.left"
+      - "\\$ball\\.offset\\(\\)\\.top"
+      - "\\$ball\\.css\\('left', "
+      - "\\$ball\\.css\\('top', "
+      - "\\}\\);"
+
+functionality:
+  - path: 'index.html'
+    tests:
+      - |
+        const btn = $('#btn-right');
+        const ball = $('.ball');
+        const ballPos = css(ball).left;
+        let newBallPos;
+        let newBallPos2;
+
+        btn.dispatchEvent(ev('click'));
+        newBallPos = css(ball).left;
+        btn.dispatchEvent(ev('click'));
+        newBallPos2 = css(ball).left;
+
+        if (ballPos == newBallPos) fail('The ball doesn’t move when the “Right” button is clicked');
+        if (newBallPos == newBallPos2) fail('The ball doesn’t move again when the “Right” button is clicked a second time');
+
+        pass();
+      - |
+        const btn = $('#btn-left');
+        const ball = $('.ball');
+        const ballPos = css(ball);
+        let newBallPos;
+        let newBallPos2;
+
+        btn.dispatchEvent(ev('click'));
+        newBallPos = css(ball).left;
+        btn.dispatchEvent(ev('click'));
+        newBallPos2 = css(ball).left;
+
+        if (ballPos == newBallPos) fail('The ball doesn’t move when the “Left” button is clicked');
+        if (newBallPos == newBallPos2) fail('The ball doesn’t move again when the “Left” button is clicked a second time');
+
+        pass();
+      - |
+        const btn = $('#btn-up');
+        const ball = $('.ball');
+        const ballPos = css(ball);
+        let newBallPos;
+        let newBallPos2;
+
+        btn.dispatchEvent(ev('click'));
+        newBallPos = css(ball).top;
+        btn.dispatchEvent(ev('click'));
+        newBallPos2 = css(ball).top;
+
+        if (ballPos == newBallPos) fail('The ball doesn’t move when the “Up” button is clicked');
+        if (newBallPos == newBallPos2) fail('The ball doesn’t move again when the “Up” button is clicked a second time');
+
+        pass();
+      - |
+        const btn = $('#btn-down');
+        const ball = $('.ball');
+        const ballPos = css(ball);
+        let newBallPos;
+        let newBallPos2;
+
+        btn.dispatchEvent(ev('click'));
+        newBallPos = css(ball).top;
+        btn.dispatchEvent(ev('click'));
+        newBallPos2 = css(ball).top;
+
+        if (ballPos == newBallPos) fail('The ball doesn’t move when the “Down” button is clicked');
+        if (newBallPos == newBallPos2) fail('The ball doesn’t move again when the “Down” button is clicked a second time');
+
+        pass();
